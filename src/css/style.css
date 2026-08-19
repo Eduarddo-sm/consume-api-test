@@ -71,7 +71,7 @@ main {
 }
 
 .results {
-    width: 100%;
+    flex: 1;
     display: flex;
 }
 
@@ -121,14 +121,12 @@ main {
     border: #0092CC 1px solid;
     border-radius: 10px;
    
-    & .hour {
-        color: #000;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    & .hour, 
+      .degree {
+        color: #000; 
+         font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   
     }
 
-    & .degree {
-        color: #000;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
 
 }
