@@ -23,9 +23,11 @@ main {
 }
 
 .container {
+    position: relative;
     width: 100%;
     background-color: #fff;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .search {
@@ -68,6 +70,60 @@ main {
     & button:hover {
         box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
     }
+}
+
+.searched-states {
+    width: 70%;
+    display: none;
+    height: auto;
+    flex-direction: column;
+    margin: 0 auto;
+    min-height: 0;
+    overflow-y: auto;
+    background-color: #087099;
+    border: #0092CC 5px solid;
+    transition: all 0.5s ease-in-out;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.searched-states .item {
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.1s ease-in-out;
+    border: transparent 1px solid;
+
+    & button {
+        width: 80%;
+        font-size: 1.5rem;
+        padding: 0.5rem 1rem;
+        text-align: start;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        background-color: transparent;
+        
+    }
+
+    & p {
+        display: flex;
+        width: 20%;
+        align-items: center;
+        text-align: start;
+    }
+
+    &.item:hover {
+        background-color: #0092CC;
+        border: #087099 1px solid;
+    }
+}
+
+.active-searched {
+    display: flex;
+    min-height: auto;
+    transition: all 0.5s ease-in-out;
 }
 
 .results {
