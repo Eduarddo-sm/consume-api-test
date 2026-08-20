@@ -24,6 +24,8 @@ main {
 
 .container {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     background-color: #fff;
     border-radius: 10px;
@@ -73,9 +75,12 @@ main {
 }
 
 .searched-states {
+    position: absolute;
     width: 70%;
     display: none;
     height: auto;
+    left: 50%;
+    transform: translateX(-50%);
     flex-direction: column;
     margin: 0 auto;
     min-height: 0;
@@ -157,7 +162,11 @@ main {
 }
 
 .history {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     width: 30%;
+    border: #0092CC 3px solid;
 }
 
 
@@ -182,6 +191,32 @@ main {
         color: #000; 
          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
    
+    }
+}
+
+.history-item {
+    width: 100%;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 5rem;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+
+    & p {
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        color: #000;
+        transition: color 0.3s ease-in-out;
+    }
+
+    &:hover {
+        background-color: #0092CC;
+        color: #fff !important;
+
+        & p {
+            color: #fff;
+        }
     }
 
 
