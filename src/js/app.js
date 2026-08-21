@@ -1,4 +1,3 @@
-
 const form = document.getElementById('search');
 const searchInput = document.getElementById('searchInput');
 let cities = "";
@@ -32,6 +31,61 @@ async function currentWeather(lat, lon){
 
 }
 
+   async function getWeatherDays(lat, lon){
+        const URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+        const resp = await fetch(URL);
+        if(resp.status === 200){
+            const obj = await resp.json();
+            //console.log(data.toLocaleString("pt-BR"));
+            return obj;
+        } else {
+            return null;
+        }
+
+    }
+
+function tratarData(stamp) {
+    const data = new Date(stamp * 1000);
+    const dataPtBr = data.toLocaleString("pt-BR");
+    const dataFormatada = dataPtBr.trim().split(",");
+
+    return dataFormatada;
+}
+
+
+ async function separeWeatherDays(lat, lon){
+        const days = await getWeatherDays(lat, lon);
+        for(let day in days.list){
+            const futureWeather = document.querySelector(".future-weather");
+            const data = tratarData(days.list[day].dt);
+            const dia = data[0].slice(0, 2);
+            const hora = data[1].slice(0, 2);
+            const card = document.createElement("div");
+            card.classList.add("hourly-weather");
+
+            const elementHour = document.createElement("p");
+            elementHour.classList.add("hour");
+            elementHour.textContent = `Dia: ${dia} | Hora ${hora}`;
+
+            const elementImg = document.createElement("img");
+            elementImg.src = "https://openweathermap.org/img/wn/01d.png";
+            elementImg.alt = "weather-icon";
+
+            const elementDegree = document.createElement("p");
+            elementDegree.classList.add("degree");
+
+            futureWeather.appendChild(card);
+            card.appendChild(elementHour);
+            card.appendChild(elementImg);
+            card.appendChild(elementDegree);
+
+            
+        }
+
+    }
+
+separeWeatherDays(-4.4667342, -44.0289169);
+
 async function renderCities(param) {
     let cidades = await param;
     const popup = document.querySelector(".searched-states");
@@ -56,26 +110,6 @@ async function renderCities(param) {
             renderHistory(city);
         })
     })
-
-    async function getWeatherDays(lat, lon){
-        const URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
-        
-        const resp = await fetch(URL);
-        if(resp === 200){
-            const obj = await resp.json();
-            return obj;
-        } else {
-            return null;
-        }
-
-    }
-
-    async function separeWeatherDays(lat, lon){
-        const days = await getWeatherDays(lat, lon);
-        return days;
-    }
-
-    console.log(separeWeatherDays(-44.4667342, -44.0289169));
 
     //Listener novo: mousedown (click)
     document.addEventListener('mousedown', (mouse) => {
