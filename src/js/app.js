@@ -52,39 +52,83 @@ function tratarData(stamp) {
     return dataFormatada;
 }
 
+function convertDegree(degree){
+    return Math.round(degree - 273.15);
+}
 
  async function separeWeatherDays(lat, lon){
+        const futureWeather = document.querySelector(".future-weather");
         const days = await getWeatherDays(lat, lon);
+        futureWeather.replaceChildren();
+        console.log(days);
         for(let day in days.list){
-            const futureWeather = document.querySelector(".future-weather");
             const data = tratarData(days.list[day].dt);
             const dia = data[0].slice(0, 2);
-            const hora = data[1].slice(0, 2);
+            const hora = data[1].slice(0, 3);
+            const degreeActually = convertDegree(days.list[day].main.temp);
+            const weatherState = days.list[day].weather[0].description;
+           
+
             const card = document.createElement("div");
             card.classList.add("hourly-weather");
 
+            const containerTimer = document.createElement("div");
+            containerTimer.classList.add("time-weatherFuture");
+
+            const elementDay = document.createElement("p");
+            elementDay.classList.add("day");
+            elementDay.textContent = `${dia}`;
+
             const elementHour = document.createElement("p");
             elementHour.classList.add("hour");
-            elementHour.textContent = `Dia: ${dia} | Hora ${hora}`;
+            elementHour.textContent = `${hora}`;
 
             const elementImg = document.createElement("img");
-            elementImg.src = "https://openweathermap.org/img/wn/01d.png";
-            elementImg.alt = "weather-icon";
+            if ( weatherState === "clear sky") {
+                elementImg.src = "https://openweathermap.org/img/wn/01d.png";
+                elementImg.alt = "Ceu limpo";
+            } else if (weatherState === "few clouds") {
+                elementImg.src = "https://openweathermap.org/img/wn/02d.png";
+                elementImg.alt = "Poucas nuvens";
+            } else if (weatherState === "scattered clouds") {
+                elementImg.src = "https://openweathermap.org/img/wn/03d.png";
+                elementImg.alt = "Nublado / nuvens dispersas";
+            } else if (weatherState === "broken clouds") {
+                elementImg.src = "https://openweathermap.org/img/wn/04d.png";
+                elementImg.alt = "Nublado";
+            } else if (weatherState === "shower rain") {
+                elementImg.src = "https://openweathermap.org/img/wn/05d.png";
+                elementImg.alt = "pancadas de chuva";
+            } else if (weatherState === "rain") {
+                elementImg.src = "https://openweathermap.org/img/wn/10d.png";
+                elementImg.alt = "chuva";
+            } else if (weatherState === "thunderstorm") {
+                elementImg.src = "https://openweathermap.org/img/wn/11d.png";
+                elementImg.alt = "Tempestade"
+            } else if (weatherState === "light rain") {
+                elementImg.src = "https://openweathermap.org/img/wn/10d.png";
+                elementImg.alt = "Chuva leve"
+            } else if (weatherState === "overcast clouds") {
+                elementImg.src = "https://openweathermap.org/img/wn/04d.png";
+                elementImg.alt = "Chuva leve"
+            } else {
+                
+            }
 
             const elementDegree = document.createElement("p");
             elementDegree.classList.add("degree");
+            elementDegree.textContent = `${degreeActually}°`
 
             futureWeather.appendChild(card);
-            card.appendChild(elementHour);
+            card.appendChild(containerTimer);
+            containerTimer.appendChild(elementDay);
+            containerTimer.appendChild(elementHour);
             card.appendChild(elementImg);
             card.appendChild(elementDegree);
 
-            
         }
 
     }
-
-separeWeatherDays(-4.4667342, -44.0289169);
 
 async function renderCities(param) {
     let cidades = await param;
@@ -107,7 +151,10 @@ async function renderCities(param) {
 
         novoButton.addEventListener("click", ()=>{
             renderCity(city.lat, city.lon);
+            separeWeatherDays(city.lat, city.lon);
             renderHistory(city);
+            popup.classList.remove('active-searched');
+            popup.replaceChildren();
         })
     })
 
@@ -134,7 +181,7 @@ async function renderCity(lat, lon){
     const degreeNow = screenResult.querySelector(".degree-now");
     const description = screenResult.querySelector(".description");
 
-    degreeNow.textContent = Math.round(weatherInformations.main.temp - 273.15);
+    degreeNow.textContent = `${convertDegree(weatherInformations.main.temp)}°`;
     description.textContent = weatherInformations.weather[0].description;
 }
 
@@ -175,6 +222,7 @@ function renderHistory(city){
 
         novoItem.addEventListener("click", ()=>{
             renderCity(history[id].lat, history[id].lon);
+            separeWeatherDays(history[id].lat, history[id].lon);
         })
 
     }

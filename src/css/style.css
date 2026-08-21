@@ -175,7 +175,7 @@ main {
     width: 100%;
     margin-top: 25px;
     gap: 10px;
-    flex-wrap: wrap;
+    overflow-y: auto;
 }
 
 .hourly-weather {
@@ -185,12 +185,17 @@ main {
     padding: 0.5rem 1rem;
     border: #0092CC 1px solid;
     border-radius: 10px;
-   
-    & .hour, 
+
+    & .day, 
       .degree {
         color: #000; 
          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
    
+    }
+
+    & .hour {
+        font-size: 0.8rem;
+        color: gray;
     }
 }
 
