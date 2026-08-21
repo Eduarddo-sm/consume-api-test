@@ -7,7 +7,7 @@ let history = {}
 
 async function chamarApi(city) {
 
-    let URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${API_KEY}`;
+    let URL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${API_KEY}`;
 
     const resp = await fetch(URL);
     if (resp.status === 200) {
